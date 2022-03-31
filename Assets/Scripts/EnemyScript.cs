@@ -11,9 +11,20 @@ public class EnemyScript : MonoBehaviour
     private bool timeBool;
 
     public bool seesPlayer;
+    public bool closeProximity;
+    public bool weaponOut;
+
+    public int attacked;
 
     public NavMeshAgent agent;
     public GameObject player;
+
+    public GameObject weapon;
+    public GameObject patrolPoint1;
+    public GameObject patrolPoint2;
+    public GameObject patrolPoint3;
+    public GameObject patrolPoint4;
+
 
     private enum enemyState
     {
@@ -31,14 +42,21 @@ public class EnemyScript : MonoBehaviour
     {
         eState = enemyState.patrol;
         seesPlayer = false;
+        closeProximity = false;
+        agent.SetDestination(patrolPoint1.transform.position);
     }
 
     void Update()
-    {
+    { 
+        if (attacked >= 100)
+        {   
+            eState = enemyState.unconcious;
+        }
+
         switch (eState)
         {
             case enemyState.patrol:
-                //code here
+                Patrolling();
                 break;
 
             case enemyState.chase:
@@ -46,27 +64,51 @@ public class EnemyScript : MonoBehaviour
                 break;
 
             case enemyState.search:
-                //code here
+                Searching();
                 break;
 
             case enemyState.attack:
-                //code here
+                Attacking();
                 break;
 
             case enemyState.retreat:
-                //code here
+                Retreating();
                 break;
 
             case enemyState.unconcious:
                 Unconcious();
                 break;
-
         }
     }
 
     private void Patrolling()
     {
-        //no clue?
+        if (seesPlayer)
+        {
+            eState = enemyState.chase;
+            timeBool = true;
+            return;
+        }
+
+        if (transform.position.x == patrolPoint4.transform.position.x && transform.position.z == patrolPoint4.transform.position.z)
+        {
+            agent.SetDestination(patrolPoint1.transform.position);
+        }
+        else if (transform.position.x == patrolPoint1.transform.position.x && transform.position.z == patrolPoint1.transform.position.z) 
+        {
+            agent.SetDestination(patrolPoint2.transform.position);
+        }
+        else if (transform.position.x == patrolPoint2.transform.position.x && transform.position.z == patrolPoint2.transform.position.z)
+        {
+            agent.SetDestination(patrolPoint3.transform.position);
+        }
+        else if (transform.position.x == patrolPoint3.transform.position.x && transform.position.z == patrolPoint3.transform.position.z)
+        {
+            agent.SetDestination(patrolPoint4.transform.position);
+        }
+
+
+
     }
 
     private void Chasing()
@@ -83,33 +125,75 @@ public class EnemyScript : MonoBehaviour
 
             timeElapsed = Time.time - currentTime;
 
-            if (timeElapsed > 5.0f)
+            if (timeElapsed >= 5.0f)
             {
-                currentTime = 0;
                 timeBool = true;
                 eState = enemyState.search;
             }
         }
-        else if (seesPlayer)
+
+        else if (seesPlayer && closeProximity)
         {
-            if (Mathf.Abs(transform.position.x - player.transform.position.x) <= 2 && Mathf.Abs(transform.position.y - player.transform.position.y) <= 2)
-            {
-                eState = enemyState.attack;
-            }
+            eState = enemyState.attack;
         }
 
     }
 
     private void Searching()
     {
-        //to chasing/retreating
+        agent.SetDestination(transform.position);
+        transform.Rotate(0, 0.1f, 0);
+
+        if (timeBool)
+        {
+            timeBool = false;
+            currentTime = Time.time;
+        }
+
+        timeElapsed = Time.time - currentTime;
+
+        if (seesPlayer)
+        {
+            timeBool = true;
+            eState = enemyState.chase;
+            return;
+        }
+
+        if (timeElapsed >= 7)
+        {
+            timeBool = true;
+            agent.SetDestination(patrolPoint1.transform.position);
+            eState = enemyState.patrol;
+
+        }
     }
 
     private void Attacking()
     {
         agent.SetDestination(player.transform.position);
 
-        //idk how to transition to retreat/unconcious
+        if (timeBool)
+        {
+            currentTime = Time.time;
+            timeBool = false;
+        }
+
+        timeElapsed = Time.time - currentTime;
+
+        if (timeElapsed >= 1.0 && !weaponOut)
+        {
+            weapon.GetComponent<BoxCollider>().enabled = true;
+            weapon.GetComponent<MeshRenderer>().enabled = true;
+            weaponOut = true;
+            currentTime = Time.time;
+        }
+        else if (timeElapsed >= 1.0 && weaponOut)
+        {
+            weapon.GetComponent<BoxCollider>().enabled = false;
+            weapon.GetComponent<MeshRenderer>().enabled = false;
+            weaponOut = false;
+            currentTime = Time.time;
+        }
     }
 
     private void Retreating()
@@ -129,13 +213,12 @@ public class EnemyScript : MonoBehaviour
         }
 
         timeElapsed = Time.time - currentTime;
-         
-        //agent.SetDestination(patrolTarget1)
 
         if (timeElapsed >= 5.0f && !seesPlayer)
         {
             currentTime = 0;
             timeBool = true;
+            agent.SetDestination(patrolPoint1.transform.position);
             eState = enemyState.patrol;
         }
     }
@@ -152,8 +235,10 @@ public class EnemyScript : MonoBehaviour
 
         if (timeElapsed >= 10.0f)
         {
+            attacked = 0;
             currentTime = 0;
             timeBool = true;
+            agent.SetDestination(patrolPoint1.transform.position);
             eState = enemyState.patrol;
         }
     }

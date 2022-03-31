@@ -55,31 +55,31 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 5086}
+      Script: {instanceID: 1476}
     - Class: 114
-      Script: {instanceID: 5546}
+      Script: {instanceID: 1948}
     - Class: 114
-      Script: {instanceID: 5790}
+      Script: {instanceID: 2194}
     - Class: 114
-      Script: {instanceID: 5822}
+      Script: {instanceID: 2206}
     - Class: 114
-      Script: {instanceID: 5920}
+      Script: {instanceID: 2228}
     - Class: 114
-      Script: {instanceID: 6064}
+      Script: {instanceID: 2328}
     - Class: 114
-      Script: {instanceID: 6244}
+      Script: {instanceID: 2478}
     - Class: 114
-      Script: {instanceID: 6260}
+      Script: {instanceID: 2658}
     - Class: 114
-      Script: {instanceID: 7246}
+      Script: {instanceID: 2674}
     - Class: 114
-      Script: {instanceID: 20180}
+      Script: {instanceID: 2958}
     - Class: 114
-      Script: {instanceID: 25422}
+      Script: {instanceID: 3220}
     - Class: 114
-      Script: {instanceID: 29698}
+      Script: {instanceID: 3676}
     - Class: 114
-      Script: {instanceID: 33918}
+      Script: {instanceID: 15764}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -203,6 +203,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: EnemyScript
+  - hash:
+      serializedVersion: 2
+      Hash: a1527141015f9884848f274120dd2ffa
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: WeaponTrigger
   - hash:
       serializedVersion: 2
       Hash: a1aa98c78061c6f03a8c124cda576e67
@@ -361,6 +367,12 @@ ScriptsOnlyBuild:
     className: Outline
   - hash:
       serializedVersion: 2
+      Hash: b8b42ba420b738adfcdbdea870d5e6d5
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SightTriggerScript
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -431,6 +443,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: EventTrigger
+  - hash:
+      serializedVersion: 2
+      Hash: b8b42ba420b738adfcdbdea870d5e6d5
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ProximityTrigger
   - hash:
       serializedVersion: 2
       Hash: a81d4c2c1cf3ad164d277d927a193679
@@ -557,24 +575,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: TouchInputModule
-  - hash:
-      serializedVersion: 2
-      Hash: b8b42ba420b738adfcdbdea870d5e6d5
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: SightTriggerScript
-  - hash:
-      serializedVersion: 2
-      Hash: b8b42ba420b738adfcdbdea870d5e6d5
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: ProximityTrigger
-  - hash:
-      serializedVersion: 2
-      Hash: a1527141015f9884848f274120dd2ffa
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: WeaponTrigger
   platform: 19
   scenePathNames:
   - Assets/Scenes/MainScene.unity

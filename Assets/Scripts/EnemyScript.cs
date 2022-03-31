@@ -47,7 +47,9 @@ public class EnemyScript : MonoBehaviour
     }
 
     void Update()
-    { 
+    {
+        ColourState();
+
         if (attacked >= 100)
         {   
             eState = enemyState.unconcious;
@@ -180,7 +182,7 @@ public class EnemyScript : MonoBehaviour
 
         timeElapsed = Time.time - currentTime;
 
-        if (timeElapsed >= 1.0 && !weaponOut)
+        if (timeElapsed >= 1.0 && !weaponOut && closeProximity)
         {
             weapon.GetComponent<BoxCollider>().enabled = true;
             weapon.GetComponent<MeshRenderer>().enabled = true;
@@ -194,6 +196,16 @@ public class EnemyScript : MonoBehaviour
             weaponOut = false;
             currentTime = Time.time;
         }
+
+        if (timeElapsed >= 7 && !seesPlayer)
+        {
+            timeBool = true;
+            agent.SetDestination(patrolPoint1.transform.position);
+            eState = enemyState.patrol;
+
+        }
+
+
     }
 
     private void Retreating()
@@ -225,6 +237,8 @@ public class EnemyScript : MonoBehaviour
 
     private void Unconcious()
     {
+        agent.SetDestination(transform.position);
+
         if (timeBool == true)
         {
             currentTime = Time.time;
@@ -245,7 +259,30 @@ public class EnemyScript : MonoBehaviour
 
     private void ColourState()
     {
-        //colours enemy based on state
+        if (eState == enemyState.patrol)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
+        else if (eState == enemyState.chase)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
+        }
+        else if (eState == enemyState.search)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else if (eState == enemyState.attack)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.magenta;
+        }
+        else if (eState == enemyState.retreat)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+        }
+        else if (eState == enemyState.unconcious)
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.white;
+        }
     }
 
 }

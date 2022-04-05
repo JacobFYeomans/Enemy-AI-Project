@@ -48,7 +48,7 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        ColourState();
+        SetStateColour();
 
         if (attacked >= 100)
         {   
@@ -92,6 +92,10 @@ public class EnemyScript : MonoBehaviour
             return;
         }
 
+        //abs values
+
+        //Vector3.Distance
+
         if (transform.position.x == patrolPoint4.transform.position.x && transform.position.z == patrolPoint4.transform.position.z)
         {
             agent.SetDestination(patrolPoint1.transform.position);
@@ -116,6 +120,12 @@ public class EnemyScript : MonoBehaviour
     private void Chasing()
     {
         agent.SetDestination(player.transform.position);
+
+        if (seesPlayer)
+        {
+            currentTime = 0;
+            timeBool = true;
+        }
 
         if (!seesPlayer)
         {
@@ -201,11 +211,8 @@ public class EnemyScript : MonoBehaviour
         {
             timeBool = true;
             agent.SetDestination(patrolPoint1.transform.position);
-            eState = enemyState.patrol;
-
+            eState = enemyState.search;
         }
-
-
     }
 
     private void Retreating()
@@ -257,7 +264,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void ColourState()
+    private void SetStateColour()
     {
         if (eState == enemyState.patrol)
         {
